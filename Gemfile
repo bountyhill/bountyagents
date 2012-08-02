@@ -7,6 +7,9 @@ gem 'sinatra'
 gem 'resque'
 # gem 'clockwork'
 
+# bountybase dependencies.
+gem "addressable"
+
 group 'development' do
   gem 'heroku'
 end

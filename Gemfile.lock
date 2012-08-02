@@ -51,6 +51,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  addressable
   eventmachine
   foreman
   heroku
