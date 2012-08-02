@@ -1,0 +1,1 @@
+${EDITOR:-mate} $(ls -1 | grep -v vendor)
