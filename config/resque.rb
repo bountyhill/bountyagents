@@ -1,14 +1,7 @@
 # configuration for resque's redis server
 
-DEFAULT_REDIS_URLS = {
-  "development" =>  "localhost:12345",
-  nil =>            "localhost:12345"
-}
+resque_url = Bountybase.config.resque
+STDERR.puts "Connecting to resque server #{resque_url}"
 
-REDIS_URL = ENV["REDIS_URL"] || 
-  ENV["REDISTOGO_URL"] || 
-  DEFAULT_REDIS_URLS[ ENV["RAKE_ENV"] ] || 
-  raise("Missing REDISTOGO_URL setting!")
-
-STDERR.puts "Connecting to redis server #{REDIS_URL}"
-STDERR.puts "Connected to redis server: #{Resque.redis.ping}"
+Resque.redis = resque_url
+STDERR.puts "Connected to resque server: #{Resque.redis.ping}"

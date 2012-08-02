@@ -5,6 +5,8 @@
 require "rubygems"
 require "bundler/setup"
 
+require "./vendor/bountybase/setup"
+
 require "resque/server"
 require "#{File.dirname(__FILE__)}/config/resque"
 require "#{File.dirname(__FILE__)}/sinatra"
