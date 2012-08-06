@@ -4,4 +4,5 @@ gem "eventmachine"
 
 gem "addressable"
 gem "resque"
+gem "remote_syslog_logger"
 
