@@ -32,11 +32,20 @@ rescue
   STDERR.puts "#{$!}, from\n\t#{$!.backtrace.join("\n\t")}"
 end
 
+if false
+
 EM.run do
-  EM::PeriodicTimer.new(1) do
+  EM::PeriodicTimer.new(10) do
     safe do
       Bountybase::Message::Heartbeat.enqueue
       logger.warn "heartbeat!"
     end
   end
+end
+
+end
+
+trap('TERM') do
+  STDERR.puts "Graceful shutdown"
+  exit
 end
