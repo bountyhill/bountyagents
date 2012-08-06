@@ -1,11 +1,16 @@
 require 'rubygems'
 require 'bundler/setup'
 
-STDERR.puts "environment"
-STDERR.puts ENV.inspect
-STDERR.puts "--" * 60
+# get -e argument (if any)
 
-ENV["INSTANCE"] = "bountytwirl"
+# set environment from "INSTANCE" environment variable. This value should
+# be "<environment>-<role>NN", e.g. "staging-bountytwirl1"
+
+if ENV["INSTANCE"].to_s =~ /^(production|staging)-([a-z]+)(\d+)$/
+  environment, instance, number = $1, $2, $3 
+  ENV["RACK_ENV"] = environment
+  STDERR.puts "Autodetected environment #{ENV["INSTANCE"]}"
+end
  
 require "./vendor/bountybase/setup"
 
