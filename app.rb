@@ -1,11 +1,11 @@
 require 'rubygems'
 require 'bundler/setup'
 
-ENV["INSTANCE"] = "bountytwirl"
-
 STDERR.puts "environment"
-STDERR.puts environment.inspect
+STDERR.puts ENV.inspect
 STDERR.puts "--" * 60
+
+ENV["INSTANCE"] = "bountytwirl"
  
 require "./vendor/bountybase/setup"
 
