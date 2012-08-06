@@ -3,6 +3,10 @@ require 'bundler/setup'
 
 ENV["INSTANCE"] = "bountytwirl"
 
+STDERR.puts "environment"
+STDERR.puts environment.inspect
+STDERR.puts "--" * 60
+ 
 require "./vendor/bountybase/setup"
 
 Bountybase.logger.info "Starting Bountytwirl in #{Bountybase.environment} environment."
