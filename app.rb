@@ -6,15 +6,12 @@ require 'bundler/setup'
 # set environment from "INSTANCE" environment variable. This value should
 # be "<environment>-<role>NN", e.g. "staging-bountytwirl1"
 
-if ENV["INSTANCE"].to_s =~ /^(production|staging)-([a-z]+)(\d+)$/
-  environment, instance, number = $1, $2, $3 
-  ENV["RACK_ENV"] = environment
-  STDERR.puts "Autodetected environment #{ENV["INSTANCE"]}"
-end
- 
 require "./vendor/bountybase/setup"
 
-Bountybase.logger.info "Starting Bountytwirl in #{Bountybase.environment} environment."
+ENV["INSTANCE"] ||= "development-bountytwirl1"
+ENV["RACK_ENV"] ||= Bountybase.environment
+ 
+Bountybase.logger.info "Starting #{Bountybase.instance} in #{Bountybase.environment} environment."
 
 require "eventmachine"
 
@@ -32,7 +29,7 @@ rescue
   STDERR.puts "#{$!}, from\n\t#{$!.backtrace.join("\n\t")}"
 end
 
-if false
+if true
 
 EM.run do
   EM::PeriodicTimer.new(10) do
@@ -44,8 +41,8 @@ EM.run do
 end
 
 end
-
-trap('TERM') do
-  STDERR.puts "Graceful shutdown"
-  exit
-end
+# 
+# trap('TERM') do
+#   STDERR.puts "Graceful shutdown"
+#   exit
+# end
