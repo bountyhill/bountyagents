@@ -60,7 +60,7 @@ module Processor
       
       Bountybase.metrics.tweet_tracked!
       
-      hashtags.each do |tag|
+      (hashtags & $twirl_tags).each do |tag|
         Bountybase.metrics.count!("tweet_#{tag}")
       end
     end
