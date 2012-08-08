@@ -1,6 +1,8 @@
 source :rubygems
 gem "eventmachine"
-# gem "tweetstream"
+gem "tweetstream"
+
+# --- bountybase dependencies
 
 gem "addressable"
 gem "resque"
