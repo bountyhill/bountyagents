@@ -1,9 +1,8 @@
 require 'rubygems'
 require 'bundler/setup'
+require "pp"
 
 require "./vendor/bountybase/setup"
-require 'tweetstream'
-require "pp"
 
 ENV["INSTANCE"] ||= "development-bountytwirl1"
 ENV["RACK_ENV"] ||= Bountybase.environment
@@ -30,13 +29,32 @@ trap('TERM') do
   exit
 end
 
+
 # -- configure TweetStream --------------------------------------------
+
+# Processing status objects is a pain in the ass. The tweetstream gem changed
+# its API considerably between 1.x and 2.x versions. Therefore we check the
+# tweetstream version here, and have it locked in the Gemfile.
+
+require 'tweetstream'
+
+if TweetStream::VERSION !~ /2.1.0/
+  W "Potentially unsupported TweetStream version", TweetStream::VERSION
+end
+
+class OpenStruct
+  def inspect
+    @table.map do |k,v|
+      "#{k}: #{v.inspect}"
+    end.sort.join(", ")
+  end
+end
 
 def twitter_config
   @twitter_config ||= begin
     config = Bountybase.config.twitter[Bountybase.instance]
     unless config
-      Bountybase.error "Cannot find twitter configuration for", Bountybase.instance
+      E "Cannot find twitter configuration for", Bountybase.instance
       exit 1
     end
     OpenStruct.new config
@@ -57,25 +75,26 @@ I "Configured TweetStream using", twitter_config
 # -- configure tags to track ------------------------------------------
 
 $twirl_tags = nil
-# $twirl_tags = Bountybase.config.twirl_tags
+$twirl_tags = Bountybase.config.twirl_tags
 W "Tracking", *$twirl_tags if $twirl_tags
 
 require_relative "processor"
 
 EM.run do
-  EM::PeriodicTimer.new(10) do
+  EM::PeriodicTimer.new(30) do
+    Bountybase.metrics.heartbeat!
     # Bountybase::Message::Heartbeat.enqueue
-    I "heartbeat!"
+    # I "heartbeat!"
   end
 
   # track or search
   if $twirl_tags
     $client.track($twirl_tags) do |status|
-      Processor.sample status
+      Processor.on_track status
     end
   else
     $client.sample do |status|
-      Processor.sample status
+      Processor.on_sample status
     end 
   end
 

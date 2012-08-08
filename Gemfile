@@ -1,6 +1,5 @@
 source :rubygems
-gem "eventmachine"
-gem "tweetstream"
+gem "tweetstream", "~> 2.1.0"
 
 # --- bountybase dependencies
 
