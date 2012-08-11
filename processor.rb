@@ -40,6 +40,15 @@ module Processor
       hashtags, screen_names, expanded_urls = 
         status.hashtags.texts, status.user_mentions.screen_names, status.urls.expanded_urls
 
+      Bountybase.metrics.tweet! :lang => status.user.lang, :tags => hashtags
+
+      STDERR.print "."
+      # W "=== @" + status.user.screen_name, status.text
+      return
+      
+      I "  lang", status.user.lang   
+      I "  tags", hashtags
+      
       return if hashtags.empty? && screen_names.empty? && expanded_urls.empty?
       
       I status.user.screen_name, status.text
@@ -52,6 +61,9 @@ module Processor
     end
     
     def on_track(status)
+      on_sample(status)
+      return
+      
       hashtags, screen_names, expanded_urls = 
         status.hashtags.texts, status.user_mentions.screen_names, status.urls.expanded_urls
       
@@ -70,8 +82,9 @@ module Processor
       # its API considerably between 1.x and 2.x versions. The code below should work
       # fine with versions 2.1.x; and that is the reason that its version is pinned
       # in the Gemfile
-      I "=== @" + status.user.screen_name, status.text
+      W "=== @" + status.user.screen_name, status.text
       #return
+      # return
       
       # I "retweeted_status", status.retweeted_status
       safe { I "urls", status.urls.map(&:expanded_url)                       }

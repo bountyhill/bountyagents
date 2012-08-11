@@ -80,8 +80,10 @@ W "Tracking", *$twirl_tags if $twirl_tags
 
 require_relative "processor"
 
+Bountybase.metrics.startup!
+
 EM.run do
-  EM::PeriodicTimer.new(30) do
+  EM::PeriodicTimer.new(10) do
     Bountybase.metrics.heartbeat!
     # Bountybase::Message::Heartbeat.enqueue
     # I "heartbeat!"
