@@ -8,3 +8,4 @@ gem "resque"
 gem "remote_syslog_logger"
 gem "fnordmetric"
 
+gem "neography"
