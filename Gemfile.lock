@@ -5,20 +5,22 @@ GEM
       i18n (~> 0.6)
       multi_json (~> 1.0)
     addressable (2.3.2)
+    awesome_print (1.0.2)
     bson (1.6.4)
     bson_ext (1.6.4)
       bson (~> 1.6.4)
     cookiejar (0.3.0)
-    daemons (1.1.8)
+    curb (0.8.1)
+    daemons (1.1.9)
     em-hiredis (0.1.1)
       hiredis (~> 0.4.0)
-    em-http-request (1.0.2)
+    em-http-request (1.0.3)
       addressable (>= 2.2.3)
       cookiejar
       em-socksify
       eventmachine (>= 1.0.0.beta.4)
       http_parser.rb (>= 0.5.3)
-    em-socksify (0.2.0)
+    em-socksify (0.2.1)
       eventmachine (>= 1.0.0.beta.4)
     em-twitter (0.1.4)
       eventmachine (>= 1.0.0.beta.4)
@@ -28,7 +30,7 @@ GEM
       addressable (>= 2.1.1)
       eventmachine (>= 0.12.9)
     eventmachine (1.0.0.rc.4)
-    faraday (0.8.1)
+    faraday (0.8.2)
       multipart-post (~> 1.1)
     fnordmetric (1.0.0)
       activesupport
@@ -45,7 +47,7 @@ GEM
       thin (~> 1.3.0)
       websocket-rack (= 0.4.0)
       yajl-ruby
-    haml (3.1.6)
+    haml (3.1.7)
     hiredis (0.4.5)
     http_parser.rb (0.5.3)
     httparty (0.8.3)
@@ -98,7 +100,7 @@ GEM
       em-twitter (~> 0.1)
       multi_json (~> 1.3)
       twitter (~> 3.2)
-    twitter (3.4.1)
+    twitter (3.6.0)
       faraday (~> 0.8)
       multi_json (~> 1.3)
       simple_oauth (~> 0.1.6)
@@ -116,6 +118,8 @@ PLATFORMS
 
 DEPENDENCIES
   addressable
+  awesome_print
+  curb
   fnordmetric
   neography
   remote_syslog_logger
