@@ -1,18 +1,3 @@
-# Some helpers that are used only here.
-class Array
-  def texts               #:nodoc:
-    map(&:text)
-  end
-
-  def screen_names        #:nodoc:
-    map(&:screen_name)
-  end
-
-  def expanded_urls       #:nodoc:
-    map(&:expanded_url)
-  end
-end
-
 # The Processor object receives notifications for twitter-related 
 # events from eventmachine's event loop. It handles these events in its
 # on_delete and process methods.
@@ -36,30 +21,46 @@ module Processor
       I "on_delete", [status_id, user_id]
     end
     
-    def on_sample(status)
+    def process(status)
+      W status.text
+      
       hashtags, screen_names, expanded_urls = 
         status.hashtags.texts, status.user_mentions.screen_names, status.urls.expanded_urls
 
-      Bountybase.metrics.tweet! :lang => status.user.lang, :tags => hashtags
+      expanded_url = expanded_urls.first
+      #return if expanded_url.nil?
+      #return if hashtags.empty?
 
-      STDERR.print "."
-      # W "=== @" + status.user.screen_name, status.text
-      return
+      W "expanded_url", expanded_urls
+      W "hashtags", hashtags
       
-      I "  lang", status.user.lang   
-      I "  tags", hashtags
+      expanded_url = expanded_urls.first
       
-      return if hashtags.empty? && screen_names.empty? && expanded_urls.empty?
+      tweet = {
+        :tweet_id     => status.id,         # The id of the tweet 
+        :sender_id    => status.user.id,    # The twitter user id of the user sent this tweet 
+        :sender_name  => status.user.screen_name, # The twitter screen name of the user sent this tweet 
+        # :source_id    => [Integer, nil],  # The twitter user id of the user from where the sender knows about this bounty.
+        # :source_name  => [String, nil],   # The twitter screen name of the user from where the sender knows about this bounty.
+        :quest_url    => expanded_url,      # The urls for the quest.
+        # :receiver_ids => [Array, nil],    # An array of user ids of twitter users, that also receive this tweet.
+        # :receiver_names => [Array, nil],  # An array of screen names of twitter users, that also receive this tweet.
+        :text         => status.text,       # The tweet text
+        :lang         => status.user.lang   # The tweet language
+      }
       
-      I status.user.screen_name, status.text
+      W "tweet", tweet
+        
+      # Bountybase::Message::Tweet.enqueue tweet
 
-      I "  hashtags", hashtags
-      I "  screen_names", screen_names
-      I "  expanded_urls", expanded_urls
+      # Bountybase.metrics.tweet! :lang => status.user.lang, :tags => hashtags
 
-      Bountybase.metrics.tweet_sampled!
+      # Bountybase.metrics.tweet_sampled!
     end
-    
+  end
+end
+__END__
+
     def on_track(status)
       on_sample(status)
       return
@@ -77,7 +78,7 @@ module Processor
       end
     end
     
-    def process(status)
+    def __process(status)
       # Processing status objects is a pain in the ass. The tweetstream gem changed
       # its API considerably between 1.x and 2.x versions. The code below should work
       # fine with versions 2.1.x; and that is the reason that its version is pinned
@@ -87,17 +88,17 @@ module Processor
       # return
       
       # I "retweeted_status", status.retweeted_status
-      safe { I "urls", status.urls.map(&:expanded_url)                       }
-      safe { I "user_mentions", status.user_mentions                         }
-      safe { I "hashtags", status.hashtags                                   }
-      safe { I "source", status.source                                       }
-      safe { I "user_id", status.user.id                                     }
-      safe { I "location", status.user.location                              }
-      safe { I "lang", status.user.lang                                      }
-      safe { I "screen_name", status.user.screen_name                        }
-      safe { I "name", status.user.name                                      }
-      safe { I "profile_image", status.user.profile_image_url_https          }
-      safe { I "status_id", status.id                                        }
+      I "urls", status.urls.map(&:expanded_url)
+      I "user_mentions", status.user_mentions
+      I "hashtags", status.hashtags
+      I "source", status.source
+      I "user_id", status.user.id
+      I "location", status.user.location
+      I "lang", status.user.lang
+      I "screen_name", status.user.screen_name
+      I "name", status.user.name
+      I "profile_image", status.user.profile_image_url_https
+      I "status_id", status.id
     end                                                                      
   end
 end
