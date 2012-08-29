@@ -17,11 +17,6 @@ module Processor
   module Implementation
     extend self
 
-    def quest_url?(url)
-      # Bountybase::Graph.quest_id(url) != nil
-      true
-    end
-
     def quest_tag?(tag)
       # %w(bhill bountyhill).include?(tag)
       true
@@ -36,8 +31,7 @@ module Processor
         
       # Is this a quest URL?
       expanded_urls = status.urls.map(&:expanded_url).uniq
-      quest_url = expanded_urls.detect { |url| quest_url?(url) }
-      return unless quest_url
+      return if expanded_urls.empty?
 
       hashtags = status.hashtags.map(&:text).uniq
       return unless hashtags.any? { |tag| quest_tag?(tag) }
@@ -50,7 +44,7 @@ module Processor
         :tweet_id     => status.id,                         # id of the tweet 
         :sender_id    => status.user.id,                    # user id of the sender of this tweet 
         :sender_name  => status.user.screen_name,           # screen name of the sender of this tweet 
-        :quest_url    => quest_url,                         # The url for the quest.
+        :quest_urls   => expanded_urls,                     # The url for the quest.
         :text         => status.text,                       # The tweet text
         :lang         => status.user.lang,                  # The tweet language
         :app          => status.source                      # Which app was used (or "web").
