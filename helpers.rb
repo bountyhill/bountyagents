@@ -1,26 +1,5 @@
 # Some helper methods.
 
-# Run a block, and log exceptions.
-def safe(&block)
-  yield
-rescue 
-  E "#{$!}, from\n\t#{$!.backtrace.join("\n\t")}"
-end
-
-class Array
-  def texts               #:nodoc:
-    map(&:text)
-  end
-
-  def screen_names        #:nodoc:
-    map(&:screen_name)
-  end
-
-  def expanded_urls       #:nodoc:
-    map(&:expanded_url)
-  end
-end
-
 # A better inspect for OpenStruct
 class OpenStruct
   def inspect
