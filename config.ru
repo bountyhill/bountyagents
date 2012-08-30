@@ -7,11 +7,11 @@ require "bundler/setup"
 
 require "./vendor/bountybase/setup"
 
-# require "resque/server"
+require "resque/server"
 # require "#{File.dirname(__FILE__)}/config/resque"
 require "#{File.dirname(__FILE__)}/sinatra"
 
-if false
+if true
   # run only the Resque server
   run Resque::Server.new 
 else
