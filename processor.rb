@@ -36,10 +36,6 @@ module Processor
       hashtags = status.hashtags.map(&:text).uniq
       return unless hashtags.any? { |tag| quest_tag?(tag) }
 
-      receivers = status.user_mentions.map do |user_mention|
-        OpenStruct.new :id => user_mention.id, :name => user_mention.screen_name
-      end
-
       t = {
         :tweet_id     => status.id,                         # id of the tweet 
         :sender_id    => status.user.id,                    # user id of the sender of this tweet 
@@ -57,39 +53,15 @@ module Processor
       end
       
       # additional receivers?
-      unless receivers.empty?
-        t.update :receiver_ids => receivers.map(&:id),      # An array of ids of additional receivers.
-                 :receiver_names => receivers.map(&:name)   # An array of screen names of additional receivers
+      mentions = status.user_mentions
+      unless mentions.empty?
+        t.update :receiver_ids => mentions.map(&:id),            # An array of ids of additional receivers.
+                 :receiver_names => mentions.map(&:screen_name)  # An array of screen names of additional receivers
       end
       
-      E status.text
+      STDERR.puts "@#{status.user.screen_name}: #{status.text}"
       Bountybase::Message::Tweet.enqueue t
-      ap t
       Bountybase.metrics.tweet! :lang => status.user.lang, :tags => hashtags
     end
   end
 end
-
-__END__
-def __process(status)
-  # Processing status objects is a pain in the ass. The tweetstream gem changed
-  # its API considerably between 1.x and 2.x versions. The code below should work
-  # fine with versions 2.1.x; and that is the reason that its version is pinned
-  # in the Gemfile
-  W "=== @" + status.user.screen_name, status.text
-  #return
-  # return
-  
-  # I "retweeted_status", status.retweeted_status
-  I "urls", status.urls.map(&:expanded_url)
-  I "user_mentions", status.user_mentions
-  I "hashtags", status.hashtags
-  I "source", status.source
-  I "user_id", status.user.id
-  I "location", status.user.location
-  I "lang", status.user.lang
-  I "screen_name", status.user.screen_name
-  I "name", status.user.name
-  I "profile_image", status.user.profile_image_url_https
-  I "status_id", status.id
-end                                                                      

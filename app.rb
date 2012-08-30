@@ -5,15 +5,17 @@
 require 'rubygems'
 require 'bundler/setup'
 require 'tweetstream'
+require 'awesome_print'
 
 # set default environment. This must be done *before* requiring bountybase/setup
 
 ENV["INSTANCE"] ||= "development-bountytwirl1"
-ENV["RACK_ENV"] ||= Bountybase.environment
 
 # -- set up Bountybase ------------------------------------------------
 
 require "./vendor/bountybase/setup"
+
+ENV["RACK_ENV"] ||= Bountybase.environment
 require_relative "helpers"
 
 Event.severity = :info
