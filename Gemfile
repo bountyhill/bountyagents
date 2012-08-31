@@ -6,12 +6,12 @@ gem 'foreman'
 gem 'sinatra'
 gem 'rake'
 
+# --- bountybase dependencies
+
 gem "tweetstream", "~> 2.1.0"
 gem "twitter"
 gem "awesome_print"
-
-# --- bountybase dependencies
-
+gem "trollop"
 gem "expectation"
 gem "addressable"
 gem "resque"

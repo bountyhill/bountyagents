@@ -1,0 +1,8 @@
+# This is a Kibofile. Use with kibo(1) to configure remote instances.
+defaults:
+    procfile: Procfile
+    namespace: bountyhill
+staging:
+    stats: 1
+production:
+    stats: 1
