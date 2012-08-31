@@ -1,5 +1,5 @@
 require "trollop"
-require_relative "../vendor/bountybase/version"
+require_relative "../../vendor/bountybase/version"
 
 module CLI
   extend self

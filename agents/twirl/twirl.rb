@@ -15,9 +15,9 @@ ENV["INSTANCE"] ||= "development-bountytwirl1"
 
 require "./vendor/bountybase/setup"
 
-require_relative "twirl/helpers"
-require_relative "twirl/processor"
-require_relative "twirl/setup"
+require_relative "./helpers"
+require_relative "./processor"
+require_relative "./setup"
 
 EM.run do
   # Sending a heartbeat allows us not only to track health, but 
