@@ -1,4 +1,4 @@
-web: bundle exec thin start -R config.ru -e $RACK_ENV -p $PORT
+clerkweb: bundle exec thin start -R clerk.ru -p $PORT -e ${RACK_ENV:-development}
+clerk: bundle exec rake --rakefile clerk.rake resque:work QUEUE=* 
 # web: bundle exec thin start -e development -p 9292
-# worker: bundle exec rake environment resque:work QUEUE=* 
 # clock: bundle exec clockwork app/clock.rb
