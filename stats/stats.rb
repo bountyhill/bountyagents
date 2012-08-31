@@ -5,7 +5,11 @@ require 'bundler/setup'
 # --- parse commandline -----------------------------------------------
 
 require_relative "cli"
-PORT = CLI.options[:port]
+
+if !CLI.web? && !CLI.worker?
+  STDERR.puts "Please add the --web and/or --worker command line arguments to determine which instance to run."
+  exit 1
+end
 
 # --- get bountybase config -------------------------------------------
 
@@ -17,33 +21,37 @@ require "./vendor/bountybase/setup"
 
 # --- setup fnordmetric -----------------------------------------------
 
-config = Bountybase.config.fnordmetric
-
 FnordMetric.options = {
   :event_queue_ttl  => 30, # all data that isn't processed within 10s is discarded to prevent memory overruns
   :event_data_ttl   => 30,
   :session_data_ttl => 1,  # we don't care about session data for now
-  :redis_prefix     => config["redis_prefix"],
-  :redis_url        => config["redis_url"]
+  :redis_prefix     => Bountybase.config.fnordmetric["redis_prefix"],
+  :redis_url        => Bountybase.config.fnordmetric["redis_url"]
 }
 
-require_relative "dashboards"
-
 # --- setup fnordmetric dashboard -------------------------------------
+
+require_relative "dashboards"
 
 FnordMetric.namespace :stats do
   Dashboards.build(self)
 end
 
-W "Starting stats web at port #{PORT}"
-FnordMetric::Web.new(:port => PORT)
-FnordMetric::Worker.new
+# prepare instance types. FnordMetric can run multiple instance types in 
+# a single EM loop.
 
-#
-# The BountyHealth module defines a thread, which generates health events every 10 seconds,
-require_relative "health"
-BountyHealth.start 10.seconds
+if CLI.web?
+  W "Starting stats web at port #{CLI.options[:port]}"
+  FnordMetric::Web.new(:port => CLI.options[:port])
+end
 
-#
-# Shoot!
+if CLI.worker?
+  W "Starting stats worker"
+  FnordMetric::Worker.new
+
+  # The health module generates health events every 10 seconds in a separate thread.
+  require_relative "health"
+  BountyHealth.start 10.seconds
+end
+
 FnordMetric.run
