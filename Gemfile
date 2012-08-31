@@ -6,6 +6,10 @@ gem 'foreman'
 gem 'sinatra'
 gem 'rake'
 
+gem "tweetstream", "~> 2.1.0"
+gem "twitter"
+gem "awesome_print"
+
 # --- bountybase dependencies
 
 gem "expectation"
@@ -15,7 +19,6 @@ gem "remote_syslog_logger"
 gem "fnordmetric"
 gem "neography"
 gem "curb"
-gem "twitter"
 
 group 'development' do
   gem 'heroku'
