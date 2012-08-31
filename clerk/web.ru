@@ -8,8 +8,8 @@ require "bundler/setup"
 require "./vendor/bountybase/setup"
 
 require "resque/server"
-# require "#{File.dirname(__FILE__)}/config/resque"
-require "#{File.dirname(__FILE__)}/sinatra"
+
+load "#{File.dirname(__FILE__)}/web.rb"
 
 if true
   # run only the Resque server
