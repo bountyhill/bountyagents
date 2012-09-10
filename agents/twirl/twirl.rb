@@ -28,7 +28,7 @@ EM.run do
 
   # Start tracking or sampling Twitter
   twirl_tags = Bountybase.config.twirl_tags
-  twirl_tags = nil
+  #twirl_tags = nil
   expect! twirl_tags => [ Array, nil ]
   
   if twirl_tags

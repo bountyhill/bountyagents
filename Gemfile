@@ -5,6 +5,7 @@ gem 'eventmachine'
 gem 'foreman'
 gem 'sinatra'
 gem 'rake'
+gem 'rulesio'
 
 # --- bountybase dependencies
 
