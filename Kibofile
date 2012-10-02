@@ -10,6 +10,7 @@ heroku:
 # How many instances to spin up?
 defaults:
   stats: 0
+  statsweb: 0
   clerkweb: 1 
   clerk: 1
   twirl: 1
