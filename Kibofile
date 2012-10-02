@@ -1,8 +1,15 @@
-# This is a Kibofile. Use with kibo(1) to configure remote instances.
+# This is an example Kibofile. Use with kibo(1) to configure
+# remote instances.
+heroku:
+  # The email of the heroku account to create app instances on heroku.
+  account: deployment@bountyhill.com
+
+  # Our instances will be called 'bountyhill-staging-web0', 'bountyhill-production-worker0', etc.
+  namespace: bountyhill
+
+# How many instances to spin up?
 defaults:
-    procfile: Procfile
-    namespace: bountyhill
-staging:
-    stats: 1
-production:
-    stats: 1
+  stats: 0
+  clerkweb: 1 
+  clerk: 1
+  twirl: 1
