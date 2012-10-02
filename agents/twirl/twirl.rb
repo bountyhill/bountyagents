@@ -19,6 +19,18 @@ require_relative "./helpers"
 require_relative "./processor"
 require_relative "./setup"
 
+# Which tags to track? This is a combination of the 
+# config.twitter_app["tag"] and the Bountybase.config.track
+# settings.
+
+def tracking
+  tracking = Bountybase.config.tracking || []
+  expect! tracking => [ Array, nil ]
+  
+  tracking << Bountybase.config.twitter_app["tag"]
+  tracking.uniq
+end
+
 EM.run do
   # Sending a heartbeat allows us not only to track health, but 
   # to stay running, too.
@@ -27,13 +39,9 @@ EM.run do
   end
 
   # Start tracking or sampling Twitter
-  twirl_tags = Bountybase.config.twirl_tags
-  #twirl_tags = nil
-  expect! twirl_tags => [ Array, nil ]
-  
-  if twirl_tags
-    W "Start tracking Twitter", *twirl_tags
-    $client.track(twirl_tags) do |status|
+  if tracking
+    W "Start tracking Twitter", *tracking
+    $client.track(tracking) do |status|
       Processor.process status
     end
   else
