@@ -14,3 +14,9 @@ defaults:
   clerkweb: 1 
   clerk: 1
   twirl: 1
+
+source:
+  pre:
+    - rake bountybase:release 
+  success:
+    - git tag $ENVIRONMENT-$(date "+%Y.%m.%d-%H.%M")
