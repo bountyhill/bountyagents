@@ -5,7 +5,6 @@
 require 'rubygems'
 require 'bundler/setup'
 require 'tweetstream'
-require 'awesome_print'
 
 # set default environment. This must be done *before* requiring bountybase/setup
 
