@@ -8,7 +8,7 @@ require 'tweetstream'
 
 # set default environment. This must be done *before* requiring bountybase/setup
 
-ENV["INSTANCE"] ||= "development-bountytwirl1"
+ENV["INSTANCE"] ||= "development-twirl1"
 
 # -- set up Bountybase ------------------------------------------------
 

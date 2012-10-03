@@ -3,7 +3,7 @@ require 'resque/tasks'
 
 task :bountybase_setup do
   # set a default instance name
-  ENV["INSTANCE"] ||= "development-bountyclerk1"
+  ENV["INSTANCE"] ||= "development-clerk1"
 
   # load bountybase
   require_relative '../../vendor/bountybase/setup'
