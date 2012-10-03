@@ -28,7 +28,9 @@ module Processor
     
     def process(status)
       source = status.retweeted_status
-        
+
+      I "processing @#{status.user.screen_name}: #{status.text}"
+      
       # Is this a quest URL?
       expanded_urls = status.urls.map(&:expanded_url).uniq
       return if expanded_urls.empty?
@@ -59,9 +61,10 @@ module Processor
                  :receiver_names => mentions.map(&:screen_name)  # An array of screen names of additional receivers
       end
       
-      STDERR.puts "@#{status.user.screen_name}: #{status.text}"
       Bountybase::Message::Tweet.enqueue t
       Bountybase.metrics.tweet! :lang => status.user.lang, :tags => hashtags
+
+      W "enqueued @#{status.user.screen_name}: #{status.text}"
     end
   end
 end
