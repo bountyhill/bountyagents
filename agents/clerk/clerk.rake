@@ -14,9 +14,18 @@ task :bountybase_setup do
   # once more.
   Bountybase.setup
 
-  # Be really verbose, resque!
+  # Timeout interval.
+  ENV['INTERVAL'] ||= "1"
+  
+  # see http://hone.heroku.com/resque/2012/08/21/resque-signals.html. Not that
+  # we care about that so far...
+  ENV['TERM_CHILD'] = "1"
+  
+  # Be verbose, resque!
   ENV['VERBOSE'] = "1"
-  ENV['VVERBOSE'] = "1"
+
+  # Be really verbose, resque!
+  #ENV['VVERBOSE'] = "1"
 end
 
 task "resque:setup" => :bountybase_setup

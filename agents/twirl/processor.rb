@@ -28,8 +28,6 @@ module Processor
     
     def process(status)
       source = status.retweeted_status
-
-      I "processing @#{status.user.screen_name}: #{status.text}"
       
       # Is this a quest URL?
       expanded_urls = status.urls.map(&:expanded_url).uniq
