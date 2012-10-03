@@ -11,7 +11,7 @@ heroku:
 defaults:
   stats: 0
   statsweb: 0
-  clerkweb: 1 
+  web: 1 
   clerk: 1
   twirl: 1
 
