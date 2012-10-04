@@ -22,7 +22,7 @@ task :bountybase_setup do
   ENV['TERM_CHILD'] = "1"
   
   # Be verbose, resque!
-  ENV['VERBOSE'] = "1"
+  #ENV['VERBOSE'] = "1"
 
   # Be really verbose, resque!
   #ENV['VVERBOSE'] = "1"
