@@ -4,7 +4,7 @@ gem 'thin'
 gem 'eventmachine'
 gem 'foreman'
 gem 'sinatra'
-gem "tweetstream", "~> 2.1.0"
+gem "tweetstream", "~> 2.2.0"
 gem "trollop"
 gem 'psych'
 
