@@ -34,6 +34,7 @@ EM.run do
   # Sending a heartbeat allows us not only to track health, but 
   # to stay running, too.
   EM::PeriodicTimer.new(10) do
+    I "heartbeat"
     Bountybase.metrics.heartbeat!
   end
 
@@ -70,6 +71,7 @@ EM.run do
   # access not authorized
   $client.on_unauthorized do || 
     E "Twitter error: Authorization for the twitter API request denied."
+    exit 1
   end
 
   # some other error
@@ -78,7 +80,7 @@ EM.run do
   end
   
   $client.on_reconnect do |timeout, retries| 
-    W "Twitter warning: reconnected"
+    W "Twitter warning: reconnecting"
     Bountybase.metrics.twitter_reconnected!
   end
 end
