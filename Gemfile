@@ -13,5 +13,5 @@ gem 'psych'
 gem 'bountydeps'
 
 group 'development' do
-  gem 'heroku'
+  gem 'kibo'
 end
