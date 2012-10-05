@@ -1,5 +1,5 @@
 # The resque web interface
-web: bundle exec thin start -R agents/clerk/web.ru -p $PORT -e ${RACK_ENV:-development}
+# web: bundle exec thin start -R agents/clerk/web.ru -p $PORT -e ${RACK_ENV:-development}
 
 # The resque worker
 clerk: bundle exec rake --rakefile agents/clerk/clerk.rake resque:work QUEUE=* 
