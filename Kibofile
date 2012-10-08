@@ -8,7 +8,7 @@ heroku:
   namespace: bountyhill
 
 # How many instances to spin up?
-defaults:
+processes:
   stats: 0
   statsweb: 0
   web: 0 
