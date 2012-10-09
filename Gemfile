@@ -13,5 +13,5 @@ gem 'psych'
 gem 'bountydeps'
 
 group 'development' do
-  gem 'kibo'
+  gem 'kibo', "~> 0.4"
 end
