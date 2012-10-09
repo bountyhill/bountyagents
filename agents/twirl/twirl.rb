@@ -31,13 +31,8 @@ def tracking
 end
 
 EM.run do
-  # Sending a heartbeat allows us not only to track health, but 
-  # to stay running, too.
-  EM::PeriodicTimer.new(10) do
-    I "heartbeat"
-    Bountybase.metrics.heartbeat!
-  end
-
+  Bountybase.start_heartbeat
+  
   # Start tracking or sampling Twitter
   if tracking
     W "Start tracking Twitter", *tracking
