@@ -1,3 +1,5 @@
+version: "0.4.3"
+
 # This is an example Kibofile. Use with kibo(1) to configure
 # remote instances.
 heroku:
@@ -15,6 +17,9 @@ processes:
   clerk: 1
   twirl: 1
 
+sharing:
+  - eno@open-lab.org
+  
 source:
   pre:
     - rake bountybase:release 
